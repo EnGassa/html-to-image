@@ -101,4 +101,24 @@ export interface Options {
    * An event handler for the error event when any image in html has problem with loading.
    */
   onImageErrorHandler?: OnErrorEventHandler
+
+  /**
+   * A function that will be called after the node is cloned and before
+   * rendering. This is useful for manipulating the cloned node before
+   * rendering. The function should return a promise that resolves when
+   * the manipulation is complete.
+   * @param clonedNode - The cloned node that will be rendered.
+   * @returns A promise that resolves when the manipulation is complete.
+   * @example
+   * ```ts
+   * const options = {
+   *   postCloneManipulate: async (clonedNode) => {
+   *     // Manipulate the cloned node here
+   *     // For example, you can change the background color
+   *     clonedNode.style.backgroundColor = 'red';
+   *   }
+   * }
+   * ```
+   */
+  postCloneManipulate?: (clonedNode: HTMLElement) => void | Promise<void>
 }

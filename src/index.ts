@@ -21,6 +21,15 @@ export async function toSvg<T extends HTMLElement>(
   await embedWebFonts(clonedNode, options)
   await embedImages(clonedNode, options)
   applyStyle(clonedNode, options)
+
+  // *** NEW HOOK POINT START ***
+  if (options.postCloneManipulate) {
+    // Allow the user to run custom modifications on the clone
+    // Use Promise.resolve() to handle both sync and async functions
+    await Promise.resolve(options.postCloneManipulate(clonedNode))
+  }
+  // *** NEW HOOK POINT END ***
+
   const datauri = await nodeToDataURL(clonedNode, width, height)
   return datauri
 }
